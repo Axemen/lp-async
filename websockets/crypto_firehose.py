@@ -1,9 +1,10 @@
-import websockets
 import asyncio
-from dotenv import load_dotenv
+import json
 import os
 
-import json
+import websockets
+from dotenv import load_dotenv
+import numpy as np
 
 load_dotenv()
 
@@ -19,16 +20,28 @@ async def listen():
         }
     }
 
+    values = []
+
     async with websockets.connect(uri) as ws:
         await ws.send(json.dumps(subscribe))
+
+        print("Connected!")
+
         async for message in ws:
             data = json.loads(message)
             try:
                 if data['data'][1] == 'btcusd':
                     print(data['data'])
-            except:
+
+                    # values.append(data['data'][-1])
+                    # if len(values) > 10:
+                    #     values.pop(0)
+
+                    # print(sum(values) / len(values))
+                
+            except KeyError:
                 pass
-        # print("Connected")
+            # await asyncio.sleep(.05)
 
 
 if __name__ == "__main__":
