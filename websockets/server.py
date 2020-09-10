@@ -1,8 +1,9 @@
 import asyncio
-import websockets
 import random
-
 import signal
+
+import websockets
+
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 async def random_numbers(ws, path):
@@ -19,4 +20,3 @@ loop = asyncio.get_event_loop()
 print("starting server")
 loop.run_until_complete(start_server)
 loop.run_forever()
-
